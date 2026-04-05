@@ -39,7 +39,7 @@ export const getKakaninById = async (req: Request, res: Response): Promise<void 
 
 export const createKakanin = async (req: Request, res: Response) => {
 
-    const {name, currentStock, lowStockThreshold} = req.body;
+    const {productId,name, currentStock, lowStockThreshold, isActive} = req.body;
 
     const newKakanin: ProductCreateRequestModel = {
         productId: name.toLowerCase().replace(/\s+/g, '-'),
