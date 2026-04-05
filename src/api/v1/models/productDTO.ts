@@ -3,4 +3,5 @@ export interface ProductDTO {
     name: string;
     currentStock: number;
     lowStockThreshold: number;
+    isActive: boolean;
 }

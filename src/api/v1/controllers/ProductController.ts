@@ -3,7 +3,7 @@ import { HTTP_STATUS } from "../../../constants/httpConstants";
 import { errorResponse, successResponse } from "../models/responseModel";
 import { sampleKakanin } from "../models/sampleData";
 import { ProductCreateRequestModel } from "../models/productCreateRequestModel";
-import { getAllKakaninService, getKakaninByIdService} from "../services/productService"
+import { getAllKakaninService, getKakaninByIdService, createKakaninService} from "../services/productService"
 
 export const getAllKakanin = async (req: Request, res: Response) => {
     try {
@@ -38,18 +38,19 @@ export const getKakaninById = async (req: Request, res: Response): Promise<void 
 
 export const createKakanin = async (req: Request, res: Response) => {
 
-    const {productId,name, currentStock, lowStockThreshold, isActive} = req.body;
+    const {productId, name, currentStock, lowStockThreshold} = req.body;
 
     const newKakanin: ProductCreateRequestModel = {
-        productId: name.toLowerCase().replace(/\s+/g, '-'),
+        productId,
         name,
         currentStock,
         lowStockThreshold,
         isActive: true
     };
 
-    sampleKakanin.push(newKakanin);
-    res.status(HTTP_STATUS.CREATED).json(successResponse(newKakanin, "New kakanin created successfully."));
+    let result = await createKakaninService(newKakanin);
+
+    res.status(HTTP_STATUS.CREATED).json(successResponse(result, "New kakanin created successfully."));
 };
 
 export const updateKakanin = async (req: Request, res: Response): Promise<void> => {
