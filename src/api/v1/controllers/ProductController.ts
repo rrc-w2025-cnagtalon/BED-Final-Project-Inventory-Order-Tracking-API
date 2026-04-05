@@ -82,3 +82,27 @@ export const updateKakanin = async (req: Request, res: Response): Promise<void> 
     } catch (error) { res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json(errorResponse("Something went wrong updating the kakanin.", "UPDATE_KAKANIN_ERROR")); 
     }
 };
+
+export const deleteKakanin = async (req: Request, res: Response): Promise<void> => {
+    try {
+        const { id } = req.params;
+
+        if (!id || typeof id !== 'string') {
+            res.status(HTTP_STATUS.BAD_REQUEST).json(errorResponse("Invalid kakanin ID.", "INVALID_ID_ERROR"));
+            return;
+        }
+
+        const kakaninIndex = sampleKakanin.findIndex((k) => k.productId === id);
+
+        if (kakaninIndex === -1) {
+            res.status(HTTP_STATUS.NOT_FOUND).json(errorResponse("Kakanin not found.", "KAKANIN_NOT_FOUND_ERROR"));
+            return;
+        }
+
+        sampleKakanin.splice(kakaninIndex, 1);
+
+        res.status(HTTP_STATUS.OK).json(successResponse(null, "Kakanin deleted successfully."));
+    } catch (error) {
+        res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json(errorResponse("Something went wrong deleting the kakanin.", "DELETE_KAKANIN_ERROR"));
+    }
+};
