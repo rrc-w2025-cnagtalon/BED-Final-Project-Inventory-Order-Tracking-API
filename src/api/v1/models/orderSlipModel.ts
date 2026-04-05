@@ -8,6 +8,7 @@ export interface OrderSlip {
     items: OrderItem[]; 
     totalPrice: number; 
     status: OrderStatus;
-    pickupDate: string;  
+    pickupDate: string;
+    pickupTime: string;
     createdAt: string;
 };
