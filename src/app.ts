@@ -1,6 +1,7 @@
 import express, { Express } from "express";
 import morgan from "morgan";
 import productRoutes from "./api/v1/routes/productRoutes"
+import orderRoutes from "./api/v1/routes/orderRoutes";
 
 // Initialize Express application
 const app: Express = express();
@@ -10,6 +11,7 @@ app.use(morgan("combined"));
 app.use(express.json());
 
 app.use("/api/v1/kakanin", productRoutes);
+app.use("/api/v1/orders", orderRoutes);
 // Define a route
 app.get("/", (req, res) => {
     res.send("Hello, World!");
