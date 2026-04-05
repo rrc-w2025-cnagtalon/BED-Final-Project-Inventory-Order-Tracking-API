@@ -3,7 +3,7 @@ import { HTTP_STATUS } from "../../../constants/httpConstants";
 import { errorResponse, successResponse } from "../models/responseModel";
 import { sampleKakanin } from "../models/sampleData";
 import { ProductCreateRequestModel } from "../models/productCreateRequestModel";
-import { getAllKakaninService, getKakaninByIdService, createKakaninService, updateKakaninService} from "../services/productService"
+import { getAllKakaninService, getKakaninByIdService, createKakaninService, updateKakaninService, deleteKakaninService} from "../services/productService"
 import { ProductDTO } from "../models/productDTO";
 import { ProductUpdateRequestModel } from "../models/productUpdateRequestModel";
 
@@ -24,7 +24,7 @@ export const getKakaninById = async (req: Request, res: Response): Promise<void 
             res.status(HTTP_STATUS.BAD_REQUEST).json(errorResponse("Invalid kakanin ID.", "INVALID_ID_ERROR"));
             return;
         }
-        // Replace with actual service call in the future
+
         const kakanin = await getKakaninByIdService(id);
 
         if (!kakanin) {
@@ -76,7 +76,6 @@ export const updateKakanin = async (req: Request, res: Response): Promise<void> 
             return;
         }
 
-        // 5. Success Response
         res.status(HTTP_STATUS.OK).json(successResponse(updatedKakanin, "Kakanin updated successfully."));
 
     } catch (error) {res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json(errorResponse("Something went wrong updating the kakanin.", "UPDATE_KAKANIN_ERROR"));}
@@ -91,14 +90,12 @@ export const deleteKakanin = async (req: Request, res: Response): Promise<void> 
             return;
         }
 
-        const kakaninIndex = sampleKakanin.findIndex((k) => k.productId === id);
+       const isDeleted = await deleteKakaninService(id);
 
-        if (kakaninIndex === -1) {
+        if (!isDeleted) {
             res.status(HTTP_STATUS.NOT_FOUND).json(errorResponse("Kakanin not found.", "KAKANIN_NOT_FOUND_ERROR"));
             return;
         }
-
-        sampleKakanin.splice(kakaninIndex, 1);
 
         res.status(HTTP_STATUS.OK).json(successResponse(null, "Kakanin deleted successfully."));
     } catch (error) {

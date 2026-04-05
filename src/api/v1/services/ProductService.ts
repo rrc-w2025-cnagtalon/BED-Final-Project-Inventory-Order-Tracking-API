@@ -24,7 +24,7 @@ export const updateKakaninService = async (productId: string, updateData: Produc
         return null;
     }
 
-    const kakaninToUpdate = sampleKakanin[index];
+    const kakaninToUpdate = sampleKakanin[index]; // Replace with actual database call in the future
 
     if (updateData.name) kakaninToUpdate.name = updateData.name;
     if (updateData.currentStock !== undefined) kakaninToUpdate.currentStock = updateData.currentStock;
@@ -33,3 +33,13 @@ export const updateKakaninService = async (productId: string, updateData: Produc
 
     return kakaninToUpdate;
 };
+
+export const deleteKakaninService = async (productId: string): Promise<boolean> => {
+    const index = sampleKakanin.findIndex((k) => k.productId === productId);
+    if (index === -1) {
+        return false;
+    }
+    sampleKakanin.splice(index, 1); // Replace with actual database call in the future
+    return true;
+}
+
