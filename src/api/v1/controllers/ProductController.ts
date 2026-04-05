@@ -3,14 +3,13 @@ import { HTTP_STATUS } from "../../../constants/httpConstants";
 import { errorResponse, successResponse } from "../models/responseModel";
 import { sampleKakanin } from "../models/sampleData";
 import { ProductCreateRequestModel } from "../models/productCreateRequestModel";
-
-// import {} from "../services/ProductService";
+import { getAllKakaninService, getKakaninByIdService} from "../services/productService"
 
 export const getAllKakanin = async (req: Request, res: Response) => {
     try {
-        const kakanin = sampleKakanin; // Replace with actual service call in the future
+        const kakanin = await getAllKakaninService();
         
-        res.status(HTTP_STATUS.OK).json(successResponse(kakanin));
+        res.status(HTTP_STATUS.OK).json(successResponse(kakanin, "Here is the current inventory for all kakanin."));
     } catch (error) {
         res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json(errorResponse("Something went wrong getting the kakanin inventory.", "GET_INVENTORY_ERROR"));
     }
@@ -24,7 +23,7 @@ export const getKakaninById = async (req: Request, res: Response): Promise<void 
             return;
         }
         // Replace with actual service call in the future
-        const kakanin = sampleKakanin.find((k) => k.productId === id);
+        const kakanin = await getKakaninByIdService(id);
 
         if (!kakanin) {
             res.status(HTTP_STATUS.NOT_FOUND).json(errorResponse("Kakanin not found.", "KAKANIN_NOT_FOUND_ERROR"));
