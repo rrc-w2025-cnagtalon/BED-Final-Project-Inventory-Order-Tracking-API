@@ -3,7 +3,9 @@ import { HTTP_STATUS } from "../../../constants/httpConstants";
 import { errorResponse, successResponse } from "../models/responseModel";
 import { sampleKakanin } from "../models/sampleData";
 import { ProductCreateRequestModel } from "../models/productCreateRequestModel";
-import { getAllKakaninService, getKakaninByIdService, createKakaninService} from "../services/productService"
+import { getAllKakaninService, getKakaninByIdService, createKakaninService, updateKakaninService} from "../services/productService"
+import { ProductDTO } from "../models/productDTO";
+import { ProductUpdateRequestModel } from "../models/productUpdateRequestModel";
 
 export const getAllKakanin = async (req: Request, res: Response) => {
     try {
@@ -60,25 +62,24 @@ export const updateKakanin = async (req: Request, res: Response): Promise<void> 
             return;
         }
 
-        const { name, currentStock, lowStockThreshold, isActive } = req.body;
+        const updateData: ProductUpdateRequestModel = {
+            name: req.body.name,
+            currentStock: req.body.currentStock,
+            lowStockThreshold: req.body.lowStockThreshold,
+            isActive: req.body.isActive
+        };
 
-        const kakaninIndex = sampleKakanin.findIndex((k) => k.productId === id);
+        const updatedKakanin = await updateKakaninService(id, updateData);
 
-        if (kakaninIndex === -1) {
+        if (!updatedKakanin) {
             res.status(HTTP_STATUS.NOT_FOUND).json(errorResponse("Kakanin not found.", "KAKANIN_NOT_FOUND_ERROR"));
             return;
         }
 
-        const kakaninToUpdate = sampleKakanin[kakaninIndex];
+        // 5. Success Response
+        res.status(HTTP_STATUS.OK).json(successResponse(updatedKakanin, "Kakanin updated successfully."));
 
-        if (name) kakaninToUpdate.name = name;
-        if (currentStock !== undefined) kakaninToUpdate.currentStock = currentStock;
-        if (lowStockThreshold !== undefined) kakaninToUpdate.lowStockThreshold = lowStockThreshold;
-        if (isActive !== undefined) kakaninToUpdate.isActive = isActive;
-
-        res.status(HTTP_STATUS.OK).json(successResponse(kakaninToUpdate, "Kakanin updated successfully."));
-    } catch (error) { res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json(errorResponse("Something went wrong updating the kakanin.", "UPDATE_KAKANIN_ERROR")); 
-    }
+    } catch (error) {res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json(errorResponse("Something went wrong updating the kakanin.", "UPDATE_KAKANIN_ERROR"));}
 };
 
 export const deleteKakanin = async (req: Request, res: Response): Promise<void> => {
