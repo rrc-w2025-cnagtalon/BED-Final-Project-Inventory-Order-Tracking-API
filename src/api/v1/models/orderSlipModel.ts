@@ -1,9 +1,9 @@
 import { OrderItem, PlatterSize, OrderStatus } from "./orderModels";
 
 export interface OrderSlip {
-    orderId: string;
+    orderNumber: string;
     customerName: string;
-    customerPhone: string;
+    customerPhoneNumber: string;
     platterSize: PlatterSize;
     items: OrderItem[]; 
     totalPrice: number; 
