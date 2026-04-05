@@ -1,8 +1,8 @@
 import { Router } from 'express';
 import { getAllKakanin} from "../controllers/ProductController";
 
-const kakaninRoutes = Router();
+const productRoutes = Router();
 
-kakaninRoutes.get("/", getAllKakanin); 
+productRoutes.get("/", getAllKakanin); 
 
-export default kakaninRoutes;
+export default productRoutes;

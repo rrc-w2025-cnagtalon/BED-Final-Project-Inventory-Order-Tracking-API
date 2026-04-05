@@ -1,8 +1,13 @@
 import express, { Express } from "express";
+import morgan from "morgan";
+import productRoutes from "./api/v1/routes/productRoutes"
 
 // Initialize Express application
 const app: Express = express();
 
+app.use(morgan("combined"));
+
+app.use("/api/v1/kakanin", productRoutes);
 // Define a route
 app.get("/", (req, res) => {
     res.send("Hello, World!");
