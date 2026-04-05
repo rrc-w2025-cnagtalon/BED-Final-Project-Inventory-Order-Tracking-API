@@ -1,4 +1,4 @@
-import { Product } from '../models/ProductModel';
+import { Product } from "./ProductModel";
 
 /**
  * Mock data representing the initial kakanin inventory.
