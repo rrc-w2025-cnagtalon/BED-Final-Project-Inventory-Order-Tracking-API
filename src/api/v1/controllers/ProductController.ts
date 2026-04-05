@@ -1,7 +1,8 @@
 import { Request, Response } from 'express';
-import { HTTP_STATUS } from "../../../constants/httpConstants"
-import { errorResponse, successResponse } from "../models/responseModel"
+import { HTTP_STATUS } from "../../../constants/httpConstants";
+import { errorResponse, successResponse } from "../models/responseModel";
 import { sampleKakanin } from "../models/sampleData";
+import { ProductCreateRequestModel } from "../models/productCreateRequestModel";
 
 // import {} from "../services/ProductService";
 
@@ -34,4 +35,20 @@ export const getKakaninById = async (req: Request, res: Response): Promise<void 
     } catch (error) {
         res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json(errorResponse("Something went wrong getting the specific kakanin.", "GET_KAKANIN_BY_ID_ERROR"));
     }
+};
+
+export const createKakanin = async (req: Request, res: Response) => {
+
+    const {name, currentStock, lowStockThreshold} = req.body;
+
+    const newKakanin: ProductCreateRequestModel = {
+        productId: name.toLowerCase().replace(/\s+/g, '-'),
+        name,
+        currentStock,
+        lowStockThreshold,
+        isActive: true
+    };
+
+    sampleKakanin.push(newKakanin);
+    res.status(HTTP_STATUS.CREATED).json(successResponse(newKakanin, "New kakanin created successfully."));
 };
