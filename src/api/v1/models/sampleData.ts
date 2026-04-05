@@ -1,4 +1,5 @@
-import { Product } from "./ProductModel";
+import { Product } from "./productModel";
+import { OrderSlip } from "./orderSlipModel";
 
 /**
  * Mock data representing the initial kakanin inventory.
@@ -32,4 +33,34 @@ export const sampleKakanin: Product[] = [
     lowStockThreshold: 50,
     isActive: true
   }
+];
+
+export const sampleOrderSlips: OrderSlip[] = [
+    {
+        orderNumber: "001",
+        customerName: "Shohei Ohtani",
+        customerPhoneNumber: "204-234-2931",
+        platterSize: 36,
+        items: [
+            { productId: "pichi-pichi", quantity: 18 },
+            { productId: "kutsinta", quantity: 18 }
+        ],
+        totalPrice: 27.99,
+        status: "Confirmed",
+        pickupDate: "2026-04-06",
+        createdAt: new Date().toISOString()
+    },
+    {
+        orderNumber: "002",
+        customerName: "Will Smith",
+        customerPhoneNumber: "204-563-3451",
+        platterSize: 12,
+        items: [
+            { productId: "royal-kalamay-ube", quantity: 12 }
+        ],
+        totalPrice: 8.99,
+        status: "Pending",
+        pickupDate: "2026-04-06",
+        createdAt: new Date().toISOString()
+    }
 ];
