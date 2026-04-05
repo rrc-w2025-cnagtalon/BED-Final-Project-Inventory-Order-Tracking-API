@@ -37,20 +37,18 @@ export const getKakaninById = async (req: Request, res: Response): Promise<void 
 };
 
 export const createKakanin = async (req: Request, res: Response) => {
-
-    const {productId, name, currentStock, lowStockThreshold} = req.body;
-
-    const newKakanin: ProductCreateRequestModel = {
-        productId,
-        name,
-        currentStock,
-        lowStockThreshold,
-        isActive: true
+    const requestData: ProductCreateRequestModel = {
+        productId: req.body.name,
+        name: req.body.name,
+        currentStock: req.body.currentStock,
+        lowStockThreshold: req.body.lowStockThreshold,
+        isActive: req.body.isActive
     };
 
-    let result = await createKakaninService(newKakanin);
+    const result = await createKakaninService(requestData);
 
-    res.status(HTTP_STATUS.CREATED).json(successResponse(result, "New kakanin created successfully."));
+    res.status(HTTP_STATUS.CREATED).json(successResponse(result, "New kakanin created successfully.")
+    );
 };
 
 export const updateKakanin = async (req: Request, res: Response): Promise<void> => {

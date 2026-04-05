@@ -10,15 +10,8 @@ export const getKakaninByIdService = async (id: string): Promise<ProductDTO | un
         return sampleKakanin.find((k) => k.productId === id); // Replace with actual database call in the future
 };
 
-export const createKakaninService = async (data: ProductCreateRequestModel): Promise<ProductDTO> => {
-    const newKakanin: ProductDTO = {
-        productId: data.name.toLowerCase().replace(/\s+/g, '-'),
-        name: data.name,
-        currentStock: data.currentStock,
-        lowStockThreshold: data.lowStockThreshold,
-        isActive: data.isActive ?? true 
-    };
-
+export const createKakaninService = async (newKakanin: ProductCreateRequestModel): Promise<ProductDTO> => {
+    newKakanin.productId = newKakanin.name.toLowerCase().replace(/\s+/g, '-'); 
     sampleKakanin.push(newKakanin);
     return newKakanin; // Replace with actual database call in the future
 };
