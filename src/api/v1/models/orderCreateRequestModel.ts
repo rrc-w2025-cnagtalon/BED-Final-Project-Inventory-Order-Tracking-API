@@ -6,4 +6,5 @@ export interface OrderCreateRequest {
     platterSize: PlatterSize;
     items: OrderItem[];
     pickupDate: string;
+    pickupTime: string;
 }
