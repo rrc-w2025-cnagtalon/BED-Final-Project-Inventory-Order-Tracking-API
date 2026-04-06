@@ -1,6 +1,9 @@
 import {OrderSlip } from "../models/orderSlipModel";
 import { sampleOrderSlips } from "../models/sampleData";
 import { OrderCreateRequest } from "../models/orderCreateRequestModel";
+import { getKakaninByIdService, updateKakaninService } from "../services/productService"
+import { get } from "http";
+import { ProductUpdateRequestModel } from "../models/productUpdateRequestModel";
 
 const generateOrderNumber = (): string => {
     const nextNumber = sampleOrderSlips.length + 1;
@@ -33,6 +36,25 @@ export const createOrderService = async (data: OrderCreateRequest): Promise<Orde
     const totalPieces = items.reduce((sum, item) => sum + item.quantity, 0);
     if (totalPieces !== platterSize) {
         throw new Error(`Total pieces (${totalPieces}) must match the platter size (${platterSize}).`);
+    }
+
+    //loops through each item, checks if it exists, checks stock, and takes out quantity if valid.
+    for (const item of items) {
+        const product = await getKakaninByIdService(item.productId);
+        
+        if (!product) {
+            throw new Error(`"${item.productId}" not found in inventory.`);
+        }
+
+        if (product.currentStock < item.quantity) {
+            throw new Error(`Not enough stock for "${product.name}". You requested ${item.quantity}, but only ${product.currentStock} is available.`);
+        }
+
+        // take stock out of inventory
+        await updateKakaninService(item.productId, {
+            currentStock: product.currentStock - item.quantity
+        } as ProductUpdateRequestModel
+    );
     }
 
     const newSlip: OrderSlip = {
