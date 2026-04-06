@@ -1,8 +1,9 @@
 import { Request, Response } from 'express';
 import { HTTP_STATUS } from "../../../constants/httpConstants";
 import { errorResponse, successResponse } from "../models/responseModel";
-import { getAllOrdersService, getOrderByIdService, createOrderService } from '../services/orderService';
+import { getAllOrdersService, getOrderByIdService, createOrderService, updateOrderService } from '../services/orderService';
 import { OrderCreateRequest } from '../models/orderCreateRequestModel';
+import { OrderUpdateRequestModel } from '../models/orderUpdateRequestModel';
 
 // get all orders
 export const getAllOrders = async (req: Request, res: Response): Promise<void> => {
@@ -55,5 +56,22 @@ export const createOrder = async (req: Request, res: Response): Promise<void> =>
 
     } catch (error: any) {
         res.status(HTTP_STATUS.BAD_REQUEST).json(errorResponse(error.message || "Failed to create order.", "ORDER_CREATION_FAILED"));
+    }
+};
+
+export const updateOrder = async (req: Request, res: Response): Promise<void> => {
+    try {
+        const { id } = req.params;
+        const updateData: OrderUpdateRequestModel = req.body;
+
+        const updatedOrder = await updateOrderService(id, updateData);
+
+        if (!updatedOrder) { res.status(HTTP_STATUS.NOT_FOUND).json(errorResponse("Order not found.", "ORDER_NOT_FOUND_ERROR"));
+            return;
+        }
+
+        res.status(HTTP_STATUS.OK).json(successResponse(updatedOrder, "Order updated successfully."));
+    } catch (error: any) {
+        res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json(errorResponse("Something went wrong updating the order.", "UPDATE_ORDER_ERROR"));   
     }
 };
