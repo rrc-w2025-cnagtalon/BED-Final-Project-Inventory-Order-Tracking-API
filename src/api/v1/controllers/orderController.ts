@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { HTTP_STATUS } from "../../../constants/httpConstants";
 import { errorResponse, successResponse } from "../models/responseModel";
-import { getAllOrdersService, getOrderByIdService, createOrderService, updateOrderService } from '../services/orderService';
+import { getAllOrdersService, getOrderByIdService, createOrderService, updateOrderService, deleteOrderService } from '../services/orderService';
 import { OrderCreateRequest } from '../models/orderCreateRequestModel';
 import { OrderUpdateRequestModel } from '../models/orderUpdateRequestModel';
 
@@ -75,3 +75,25 @@ export const updateOrder = async (req: Request, res: Response): Promise<void> =>
         res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json(errorResponse("Something went wrong updating the order.", "UPDATE_ORDER_ERROR"));   
     }
 };
+
+export const deleteOrder = async (req: Request, res: Response): Promise<void> => {
+    try {
+            const { orderNumber } = req.params;
+    
+            if (!orderNumber || typeof orderNumber !== 'string') {
+                res.status(HTTP_STATUS.BAD_REQUEST).json(errorResponse("Invalid order number.", "INVALID_ID_ERROR"));
+                return;
+            }
+    
+           const isDeleted = await deleteOrderService(orderNumber);
+    
+            if (!isDeleted) {
+                res.status(HTTP_STATUS.NOT_FOUND).json(errorResponse("Order not found.", "ORDER_NOT_FOUND_ERROR"));
+                return;
+            }
+    
+            res.status(HTTP_STATUS.OK).json(successResponse(null, "Order deleted successfully."));
+        } catch (error) {
+            res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json(errorResponse("Something went wrong deleting the order.", "DELETE_ORDER_ERROR"));
+        }
+    };
