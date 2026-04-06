@@ -2,8 +2,8 @@ import {OrderSlip } from "../models/orderSlipModel";
 import { sampleOrderSlips } from "../models/sampleData";
 import { OrderCreateRequest } from "../models/orderCreateRequestModel";
 import { getKakaninByIdService, updateKakaninService } from "../services/productService"
-import { get } from "http";
 import { ProductUpdateRequestModel } from "../models/productUpdateRequestModel";
+import { OrderUpdateRequestModel } from "../models/orderUpdateRequestModel";
 
 const generateOrderNumber = (): string => {
     const nextNumber = sampleOrderSlips.length + 1;
@@ -72,4 +72,11 @@ export const createOrderService = async (data: OrderCreateRequest): Promise<Orde
 
     sampleOrderSlips.push(newSlip);
     return newSlip;
+};
+
+export const updateOrderService = async (orderNumber: string, data: OrderUpdateRequestModel): Promise<OrderSlip | null> => {
+    const index = sampleOrderSlips.findIndex(o => o.orderNumber === orderNumber);
+    if (index === -1) return null;
+    sampleOrderSlips[index] = { ...sampleOrderSlips[index], ...data };
+    return sampleOrderSlips[index]; // Replace with actual database call in the future
 };
