@@ -2,13 +2,15 @@ import express, { Express } from "express";
 import morgan from "morgan";
 import productRoutes from "./api/v1/routes/productRoutes"
 import orderRoutes from "./api/v1/routes/orderRoutes";
+import { initScheduler } from "./config/scheduler";
 
 // Initialize Express application
 const app: Express = express();
 
 app.use(morgan("combined"));
-
 app.use(express.json());
+
+initScheduler();
 
 app.use("/api/v1/kakanin", productRoutes);
 app.use("/api/v1/orders", orderRoutes);
