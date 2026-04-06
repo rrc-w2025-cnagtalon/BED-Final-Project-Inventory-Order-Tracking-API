@@ -1,10 +1,11 @@
 import { Product } from "./productModel";
+import { ProductDTO } from "./productDTO";
 import { OrderSlip } from "./orderSlipModel";
 
 /**
  * Mock data representing the initial kakanin inventory.
  */
-export const sampleKakanin: Product[] = [
+export const sampleKakanin: ProductDTO[] = [
   {
     productId: 'royal-bibingka',
     name: 'Royal Bibingka',

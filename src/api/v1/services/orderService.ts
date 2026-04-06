@@ -18,7 +18,7 @@ export const getOrderByIdService = async (id: string): Promise<OrderSlip | undef
     return sampleOrderSlips.find((order) => order.orderNumber === id); // Replace with actual database call in the future
 }
 
-export const createOrderService = async (data: OrderCreateRequest): Promise<OrderSlip> => {
+export const createOrderService = async (data: OrderCreateRequest): Promise<OrderSlip | undefined> => {
     const { items, platterSize } = data;
 
     // max 6 kinds per platter
@@ -46,13 +46,13 @@ export const createOrderService = async (data: OrderCreateRequest): Promise<Orde
             throw new Error(`"${item.productId}" not found in inventory.`);
         }
 
-        if (product.currentStock < item.quantity) {
+        if ((product.currentStock ?? 0) < item.quantity) {
             throw new Error(`Not enough stock for "${product.name}". You requested ${item.quantity}, but only ${product.currentStock} is available.`);
         }
 
         // take stock out of inventory
         await updateKakaninService(item.productId, {
-            currentStock: product.currentStock - item.quantity
+            currentStock: (product.currentStock ?? 0) - item.quantity
         } as ProductUpdateRequestModel
     );
     }
