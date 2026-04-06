@@ -1,7 +1,8 @@
 import { Request, Response } from 'express';
 import { HTTP_STATUS } from "../../../constants/httpConstants";
 import { errorResponse, successResponse } from "../models/responseModel";
-import { getAllOrdersService, getOrderByIdService } from '../services/orderService';
+import { getAllOrdersService, getOrderByIdService, createOrderService } from '../services/orderService';
+import { OrderCreateRequest } from '../models/orderCreateRequestModel';
 
 // get all orders
 export const getAllOrders = async (req: Request, res: Response): Promise<void> => {
@@ -37,3 +38,22 @@ export const getOrderById = async (req: Request, res: Response): Promise<void> =
     }
 };
 
+export const createOrder = async (req: Request, res: Response): Promise<void> => {
+    try {
+        const requestData: OrderCreateRequest = {
+            customerName: req.body.customerName,
+            customerPhoneNumber: req.body.customerPhoneNumber,
+            platterSize: req.body.platterSize,
+            items: req.body.items,
+            pickupDate: req.body.pickupDate,
+            pickupTime: req.body.pickupTime
+        };
+
+        const newOrder = await createOrderService(requestData);
+
+        res.status(HTTP_STATUS.CREATED).json(successResponse(newOrder, "New order created successfully."));
+
+    } catch (error: any) {
+        res.status(HTTP_STATUS.BAD_REQUEST).json(errorResponse(error.message || "Failed to create order.", "ORDER_CREATION_FAILED"));
+    }
+};
