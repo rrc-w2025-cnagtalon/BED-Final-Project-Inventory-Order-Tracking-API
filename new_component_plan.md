@@ -10,4 +10,10 @@ Currently, at the end of the day, a manager has to manually go through all the o
 
 I will implement a scheduled service that triggers every day after the store closes (6pm)
 
-The scheduler will trigger a function that takes all the orders scdehduled for the following day, and aggreagte the total numver of pieces for each product (5 order slips with 3x 12pcs Puto Cheese will be aggregated to 36pcs Puto Cheese). It will the generate a new document providing a consolidated prep sheet for the morning staff.
+The scheduler will trigger a function that takes all the orders scdehduled for the following day's pickupDate.
+
+Then it will aggreagte the total numver of pieces for each product (5 order slips with 3x 12pcs Puto Cheese will be aggregated to 36pcs Puto Cheese).
+
+It will then generate a new document providing a consolidated prep sheet for the morning staff.
+
+## Current implemetnation
