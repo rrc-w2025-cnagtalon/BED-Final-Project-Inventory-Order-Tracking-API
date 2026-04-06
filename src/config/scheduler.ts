@@ -3,13 +3,13 @@ import { generateDailyBakeList } from '../api/v1/services/bakeListService';
 
 export const initScheduler = () => {
   // Test Pattern: '* * * * *' (Runs every minute for testing)
-  // Real Pattern: '0 19 * * *' (Runs at 9:00 PM closing time)
+  // Real Pattern: '0 19 * * *' (Runs at 7:00 PM closing time)
   
   cron.schedule('* * * * *', async () => {
     console.log('[Scheduler] Starting nightly Bake List...');
     
     try {
-        // Calculate the date for "tomorrow"
+        // Calculate the date for tomorrow's pickup
         const tomorrow = new Date();
         tomorrow.setDate(tomorrow.getDate() + 1);
         const dateString = tomorrow.toISOString().split('T')[0];

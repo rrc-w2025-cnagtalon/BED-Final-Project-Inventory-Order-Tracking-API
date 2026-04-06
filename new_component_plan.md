@@ -16,4 +16,6 @@ Then it will aggreagte the total numver of pieces for each product (5 order slip
 
 It will then generate a new document providing a consolidated prep sheet for the morning staff.
 
-## Current implemetnation
+## Current implemetnation 
+
+Installed dependencies and created the initScheduler() to start a task (print to console) every minute for testing.
