@@ -80,3 +80,12 @@ export const updateOrderService = async (orderNumber: string, data: OrderUpdateR
     sampleOrderSlips[index] = { ...sampleOrderSlips[index], ...data };
     return sampleOrderSlips[index]; // Replace with actual database call in the future
 };
+
+export const deleteOrderService = async (orderNumber: string): Promise<boolean> => {
+    const index = sampleOrderSlips.findIndex((k) => k.orderNumber === orderNumber);
+        if (index === -1) {
+            return false;
+        }
+        sampleOrderSlips.splice(index, 1); // Replace with actual database call in the future
+        return true;
+    }
