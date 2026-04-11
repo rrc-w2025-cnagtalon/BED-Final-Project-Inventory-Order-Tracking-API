@@ -4,6 +4,6 @@ export interface ProductDTO {
     currentStock?: number;
     lowStockThreshold?: number;
     isActive: boolean;
-    createdAt: Date;
-    updatedAt: Date;
+    createdAt?: Date;
+    updatedAt?: Date;
 }
