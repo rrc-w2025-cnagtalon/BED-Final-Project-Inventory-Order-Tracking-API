@@ -2,11 +2,11 @@ import {ProductDTO} from "../models/productDTO";
 import { sampleKakanin } from "../models/sampleData";
 import { ProductCreateRequestModel } from "../models/productCreateRequestModel";
 import { ProductUpdateRequestModel } from "../models/productUpdateRequestModel";
-import { addDocument, getDocumentById} from "../repositories/productRepository";
+import { addDocument, getCollection, getDocumentById} from "../repositories/productRepository";
 import { ProductResponse } from "../models/productResponse";  
 
 export const getAllKakaninService = async (): Promise<Array<ProductDTO> | undefined> => {
-        return sampleKakanin; // Replace with actual database call in the future
+        return await getCollection();
 };
 
 export const getKakaninByIdService = async (id: string): Promise<ProductResponse> => {

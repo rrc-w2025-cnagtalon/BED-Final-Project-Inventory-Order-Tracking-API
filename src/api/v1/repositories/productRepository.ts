@@ -51,3 +51,28 @@ export const getDocumentById = async (id: string): Promise<ProductDTO | undefine
         console.log("No such document!");
     }
 };
+
+export const getCollection = async (): Promise<Array<ProductDTO> | undefined> => {
+    // Retrieve all documents from the 'products' collection
+    // `get()` returns a QuerySnapshot containing all documents in the collection
+    const snapshot: QuerySnapshot = await db.collection("products").get();
+
+    const products: ProductDTO[] = []
+
+    // Iterate through each document in the collection
+    snapshot.forEach((doc) => {
+        // `doc.data()` returns an object with all fields in the document
+        let data = doc.data()
+        products.push({
+            productId: data!.id,
+            name: data!.name,
+            currentStock: data!.currentStock,
+            lowStockThreshold: data!.lowStockThreshold,
+            isActive: data!.isActive,
+            createdAt: data!.createdAt,
+            updatedAt: data!.updatedAt
+        });
+    });
+
+    return products;
+};
