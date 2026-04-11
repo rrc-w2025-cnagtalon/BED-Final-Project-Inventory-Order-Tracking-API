@@ -2,7 +2,7 @@ import {ProductDTO} from "../models/productDTO";
 import { sampleKakanin } from "../models/sampleData";
 import { ProductCreateRequestModel } from "../models/productCreateRequestModel";
 import { ProductUpdateRequestModel } from "../models/productUpdateRequestModel";
-import { addDocument, getCollection, getDocumentById, updateDocument} from "../repositories/productRepository";
+import { addDocument, deleteDocument, getCollection, getDocumentById, updateDocument} from "../repositories/productRepository";
 import { ProductResponse } from "../models/productResponse";  
 
 export const getAllKakaninService = async (): Promise<Array<ProductDTO> | undefined> => {
@@ -41,11 +41,7 @@ export const updateKakaninService = async (productId: string, updateData: Produc
 };
 
 export const deleteKakaninService = async (productId: string): Promise<boolean> => {
-    const index = sampleKakanin.findIndex((k) => k.productId === productId);
-    if (index === -1) {
-        return false;
-    }
-    sampleKakanin.splice(index, 1); // Replace with actual database call in the future
+    await deleteDocument(productId);
     return true;
 }
 
