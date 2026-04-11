@@ -3,6 +3,7 @@ import { DocumentReference, QuerySnapshot } from "firebase-admin/firestore";
 import { Product } from "../models/productModel";
 import { ProductCreateRequestModel } from "../models/productCreateRequestModel";
 import { ProductDTO } from "../models/productDTO";
+import { ProductUpdateRequestModel } from "../models/productUpdateRequestModel";
 
 export const addDocument = async (product: ProductCreateRequestModel): Promise<string> => {
     const productId = product.name!.toLowerCase().replace(/\s+/g, '-');
@@ -75,4 +76,23 @@ export const getCollection = async (): Promise<Array<ProductDTO> | undefined> =>
     });
 
     return products;
+};
+
+//update always takes 2 params, the id and the product. 
+export const updateDocument = async (id: string, product: ProductUpdateRequestModel ): Promise<void> => {
+    // Create a reference to a specific document in the 'products' collection
+    const docRef: DocumentReference = db.collection("products").doc(id);
+
+    // Use the `update()` method to modify specific fields in the document
+    // This will only change the specified fields, leaving others untouched
+    await docRef.update({
+        //if the field is there, it will update it. if its not there, it will add the field.
+        name: product.name,
+        currentStock: product.currentStock,
+        lowStockThreshold: product.lowStockThreshold,
+        isActive: product.isActive,
+        updatedAt: new Date()
+    });
+
+    return;     
 };

@@ -2,7 +2,7 @@ import {ProductDTO} from "../models/productDTO";
 import { sampleKakanin } from "../models/sampleData";
 import { ProductCreateRequestModel } from "../models/productCreateRequestModel";
 import { ProductUpdateRequestModel } from "../models/productUpdateRequestModel";
-import { addDocument, getCollection, getDocumentById} from "../repositories/productRepository";
+import { addDocument, getCollection, getDocumentById, updateDocument} from "../repositories/productRepository";
 import { ProductResponse } from "../models/productResponse";  
 
 export const getAllKakaninService = async (): Promise<Array<ProductDTO> | undefined> => {
@@ -26,21 +26,18 @@ export const createKakaninService = async (newKakanin: ProductCreateRequestModel
     return await addDocument(newKakanin);
 };
 
-export const updateKakaninService = async (productId: string, updateData: ProductUpdateRequestModel): Promise<ProductDTO | null> => {
-    const index = sampleKakanin.findIndex((k) => k.productId === productId);
+export const updateKakaninService = async (productId: string, updateData: ProductUpdateRequestModel): Promise<ProductResponse | null> => {
     
-    if (index === -1) {
+    const updatedEntity = await getDocumentById(productId);
+    if (!updatedEntity) {
         return null;
     }
 
-    const kakaninToUpdate = sampleKakanin[index]; // Replace with actual database call in the future
+    await updateDocument(productId, updateData);
 
-    if (updateData.name) kakaninToUpdate.name = updateData.name;
-    if (updateData.currentStock !== undefined) kakaninToUpdate.currentStock = updateData.currentStock;
-    if (updateData.lowStockThreshold !== undefined) kakaninToUpdate.lowStockThreshold = updateData.lowStockThreshold;
-    if (updateData.isActive !== undefined) kakaninToUpdate.isActive = updateData.isActive;
+    const updatedProduct = await getDocumentById(productId);
 
-    return kakaninToUpdate;
+    return updatedProduct as ProductResponse;
 };
 
 export const deleteKakaninService = async (productId: string): Promise<boolean> => {
