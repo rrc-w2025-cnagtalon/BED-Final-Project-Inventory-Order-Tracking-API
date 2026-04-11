@@ -2,6 +2,7 @@ import {ProductDTO} from "../models/productDTO";
 import { sampleKakanin } from "../models/sampleData";
 import { ProductCreateRequestModel } from "../models/productCreateRequestModel";
 import { ProductUpdateRequestModel } from "../models/productUpdateRequestModel";
+import { addDocument} from "../repositories/productRepository";    
 
 export const getAllKakaninService = async (): Promise<Array<ProductDTO> | undefined> => {
         return sampleKakanin; // Replace with actual database call in the future
@@ -11,10 +12,8 @@ export const getKakaninByIdService = async (id: string): Promise<ProductDTO | un
         return sampleKakanin.find((k) => k.productId === id); // Replace with actual database call in the future
 };
 
-export const createKakaninService = async (newKakanin: ProductCreateRequestModel): Promise<ProductDTO | undefined> => {
-    newKakanin.productId = (newKakanin.name ?? '').toLowerCase().replace(/\s+/g, '-'); 
-    sampleKakanin.push(newKakanin as ProductDTO);
-    return newKakanin; // Replace with actual database call in the future
+export const createKakaninService = async (newKakanin: ProductCreateRequestModel): Promise<string | undefined> => {
+    return await addDocument(newKakanin);
 };
 
 export const updateKakaninService = async (productId: string, updateData: ProductUpdateRequestModel): Promise<ProductDTO | null> => {
