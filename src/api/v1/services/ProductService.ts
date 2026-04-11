@@ -2,14 +2,24 @@ import {ProductDTO} from "../models/productDTO";
 import { sampleKakanin } from "../models/sampleData";
 import { ProductCreateRequestModel } from "../models/productCreateRequestModel";
 import { ProductUpdateRequestModel } from "../models/productUpdateRequestModel";
-import { addDocument} from "../repositories/productRepository";    
+import { addDocument, getDocumentById} from "../repositories/productRepository";
+import { ProductResponse } from "../models/productResponse";  
 
 export const getAllKakaninService = async (): Promise<Array<ProductDTO> | undefined> => {
         return sampleKakanin; // Replace with actual database call in the future
 };
 
-export const getKakaninByIdService = async (id: string): Promise<ProductDTO | undefined> => {
-        return sampleKakanin.find((k) => k.productId === id); // Replace with actual database call in the future
+export const getKakaninByIdService = async (id: string): Promise<ProductResponse> => {
+    let entity = await getDocumentById(id);
+    return {
+        productId: entity?.productId,
+        name: entity?.name,
+        currentStock: entity?.currentStock,
+        lowStockThreshold: entity?.lowStockThreshold,
+        isActive: entity?.isActive,
+        createdAt: entity?.createdAt,
+        updatedAt: entity?.updatedAt
+    }
 };
 
 export const createKakaninService = async (newKakanin: ProductCreateRequestModel): Promise<string | undefined> => {
