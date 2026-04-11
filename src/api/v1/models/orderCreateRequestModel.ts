@@ -7,4 +7,8 @@ export interface OrderCreateRequest {
     items: OrderItem[];
     pickupDate: string;
     pickupTime: string;
+    totalPrice?: number;
+    status: "Pending"; 
+    createdAt?: Date;
+    updatedAt?: Date;
 }

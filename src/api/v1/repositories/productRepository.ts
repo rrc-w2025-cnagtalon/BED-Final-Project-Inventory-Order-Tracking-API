@@ -83,18 +83,17 @@ export const updateDocument = async (id: string, product: ProductUpdateRequestMo
     // Create a reference to a specific document in the 'products' collection
     const docRef: DocumentReference = db.collection("products").doc(id);
 
-    // Use the `update()` method to modify specific fields in the document
-    // This will only change the specified fields, leaving others untouched
-    await docRef.update({
-        //if the field is there, it will update it. if its not there, it will add the field.
-        name: product.name,
-        currentStock: product.currentStock,
-        lowStockThreshold: product.lowStockThreshold,
-        isActive: product.isActive,
-        updatedAt: new Date()
-    });
+    // make an object with only fields that are defined. avoids overwritign fileds with undefined if they are not included in the request body.
+    const cleanProduct: any = {};
+    
+    if (product.name !== undefined) cleanProduct.name = product.name;
+    if (product.currentStock !== undefined) cleanProduct.currentStock = product.currentStock;
+    if (product.lowStockThreshold !== undefined) cleanProduct.lowStockThreshold = product.lowStockThreshold;
+    if (product.isActive !== undefined) cleanProduct.isActive = product.isActive;
+    
+    cleanProduct.updatedAt = new Date();
 
-    return;     
+    await docRef.update(cleanProduct);
 };
 
 export const deleteDocument = async (id: string): Promise<void> => {

@@ -10,5 +10,6 @@ export interface OrderSlip {
     status: OrderStatus;
     pickupDate: string;
     pickupTime: string;
-    createdAt: string;
+    createdAt?: Date;
+    updatedAt?: Date;
 };

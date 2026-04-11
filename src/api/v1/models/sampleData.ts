@@ -50,7 +50,7 @@ export const sampleOrderSlips: OrderSlip[] = [
         status: "Confirmed",
         pickupDate: "2026-04-06",
         pickupTime: "10:00 AM",
-        createdAt: new Date().toISOString()
+        createdAt: new Date()
     },
     {
         orderNumber: "002",
@@ -64,6 +64,6 @@ export const sampleOrderSlips: OrderSlip[] = [
         status: "Pending",
         pickupDate: "2026-04-06",
         pickupTime: "11:00 AM",
-        createdAt: new Date().toISOString()
+        createdAt: new Date()
     }
 ];

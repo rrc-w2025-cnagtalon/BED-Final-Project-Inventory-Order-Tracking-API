@@ -4,6 +4,7 @@ import { errorResponse, successResponse } from "../models/responseModel";
 import { getAllOrdersService, getOrderByIdService, createOrderService, updateOrderService, deleteOrderService } from '../services/orderService';
 import { OrderCreateRequest } from '../models/orderCreateRequestModel';
 import { OrderUpdateRequestModel } from '../models/orderUpdateRequestModel';
+import { stat } from 'fs';
 
 // get all orders
 export const getAllOrders = async (req: Request, res: Response): Promise<void> => {
@@ -47,7 +48,9 @@ export const createOrder = async (req: Request, res: Response): Promise<void> =>
             platterSize: req.body.platterSize,
             items: req.body.items,
             pickupDate: req.body.pickupDate,
-            pickupTime: req.body.pickupTime
+            pickupTime: req.body.pickupTime,
+            status: "Pending",
+            totalPrice: 0
         };
 
         const newOrder = await createOrderService(requestData);

@@ -4,6 +4,7 @@ import { OrderCreateRequest } from "../models/orderCreateRequestModel";
 import { getKakaninByIdService, updateKakaninService } from "../services/productService"
 import { ProductUpdateRequestModel } from "../models/productUpdateRequestModel";
 import { OrderUpdateRequestModel } from "../models/orderUpdateRequestModel";
+import { addDocument } from "../repositories/orderRepository";
 
 const generateOrderNumber = (): string => {
     const nextNumber = sampleOrderSlips.length + 1;
@@ -18,7 +19,7 @@ export const getOrderByIdService = async (id: string): Promise<OrderSlip | undef
     return sampleOrderSlips.find((order) => order.orderNumber === id); // Replace with actual database call in the future
 }
 
-export const createOrderService = async (data: OrderCreateRequest): Promise<OrderSlip | undefined> => {
+export const createOrderService = async (data: OrderCreateRequest): Promise<string | undefined> => {
     const { items, platterSize } = data;
 
     // max 6 kinds per platter
@@ -57,21 +58,9 @@ export const createOrderService = async (data: OrderCreateRequest): Promise<Orde
     );
     }
 
-    const newSlip: OrderSlip = {
-        orderNumber: generateOrderNumber(),
-        customerName: data.customerName,
-        customerPhoneNumber: data.customerPhoneNumber,
-        platterSize: data.platterSize,
-        items: data.items,
-        totalPrice: 1, //price calculation will be added later
-        status: "Pending",
-        pickupDate: data.pickupDate,
-        pickupTime: data.pickupTime,
-        createdAt: new Date().toISOString()
-    };
+    const orderNumber = await generateOrderNumber();
 
-    sampleOrderSlips.push(newSlip);
-    return newSlip;
+    return await addDocument(data, orderNumber);
 };
 
 export const updateOrderService = async (orderNumber: string, data: OrderUpdateRequestModel): Promise<OrderSlip | null> => {
