@@ -24,4 +24,30 @@ export const addDocument = async (product: ProductCreateRequestModel): Promise<s
 
     await docRef.set(productEntity);
     return docRef.id;
-};      
+};
+
+export const getDocumentById = async (id: string): Promise<ProductDTO | undefined> => {
+    // Create a reference to a specific document in the 'products' collection
+    const docRef: DocumentReference = db.collection("products").doc(id);
+
+    // Use the `get()` method to retrieve the document
+    const doc = await docRef.get();
+
+    // Check if the document exists
+    if (doc.exists) {
+        // `doc.data()` returns an object with all fields in the document
+        let data = doc.data();
+
+        return {
+            productId: data?.productId,
+            name: data?.name,
+            currentStock: data?.currentStock,
+            lowStockThreshold: data?.lowStockThreshold,
+            isActive: data?.isActive,
+            createdAt: data?.createdAt,
+            updatedAt: data?.updatedAt
+        }
+    } else {
+        console.log("No such document!");
+    }
+};
