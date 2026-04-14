@@ -22,11 +22,6 @@ export const getOrderById = async (req: Request, res: Response): Promise<void> =
     try {
         const { id } = req.params;
 
-        if (!id || typeof id !== 'string') {
-            res.status(HTTP_STATUS.BAD_REQUEST).json(errorResponse("Invalid order ID.", "INVALID_ID_ERROR"));
-            return;
-        }
-
         const order = await getOrderByIdService(id);
 
         if (!order) {

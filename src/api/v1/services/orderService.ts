@@ -4,7 +4,8 @@ import { OrderCreateRequest } from "../models/orderCreateRequestModel";
 import { getKakaninByIdService, updateKakaninService } from "../services/productService"
 import { ProductUpdateRequestModel } from "../models/productUpdateRequestModel";
 import { OrderUpdateRequestModel } from "../models/orderUpdateRequestModel";
-import { addDocument } from "../repositories/orderRepository";
+import { addDocument, getCollection, getDocumentById } from "../repositories/orderRepository";
+import { get } from "http";
 
 const generateOrderNumber = (): string => {
     const nextNumber = sampleOrderSlips.length + 1;
@@ -12,11 +13,11 @@ const generateOrderNumber = (): string => {
 };
 
 export const getAllOrdersService = async (): Promise<OrderSlip[] | undefined> => {
-    return sampleOrderSlips; // Replace with actual database call in the future
+    return getCollection();
 };
 
 export const getOrderByIdService = async (id: string): Promise<OrderSlip | undefined> => {
-    return sampleOrderSlips.find((order) => order.orderNumber === id); // Replace with actual database call in the future
+    return getDocumentById(id); 
 }
 
 export const createOrderService = async (data: OrderCreateRequest): Promise<string | undefined> => {
