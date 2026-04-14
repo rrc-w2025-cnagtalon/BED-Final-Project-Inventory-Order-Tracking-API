@@ -68,9 +68,9 @@ export const getCollection = async (): Promise<Array<OrderSlip> | undefined> => 
         // `doc.data()` returns an object with all fields in the document
         let data = doc.data()
         orders.push({
-            orderNumber: data!.id,
-            customerName: data!.name,
-            customerPhoneNumber: data!.currentStock,
+            orderNumber: data!.orderNumber,
+            customerName: data!.customerName,
+            customerPhoneNumber: data!.customerPhoneNumber,
             platterSize: data!.platterSize,
             items: data!.items,
             totalPrice: data!.totalPrice,
