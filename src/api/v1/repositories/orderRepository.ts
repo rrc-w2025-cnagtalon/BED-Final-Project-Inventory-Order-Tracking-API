@@ -106,3 +106,11 @@ export const updateDocument = async (id: string, order: OrderUpdateRequestModel 
 
     await docRef.update(cleanOrder);
 };
+
+export const deleteDocument = async (id: string): Promise<void> => {
+    // Create a reference to a specific document in the 'orders' collection
+    const docRef: DocumentReference = db.collection("orders").doc(id);
+
+    // Use the `delete()` method to remove the document from Firestore
+    await docRef.delete();
+};
