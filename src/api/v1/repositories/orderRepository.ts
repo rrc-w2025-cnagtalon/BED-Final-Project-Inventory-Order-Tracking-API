@@ -84,3 +84,25 @@ export const getCollection = async (): Promise<Array<OrderSlip> | undefined> => 
 
     return orders;
 };
+
+//update always takes 2 params, the id and the product. 
+export const updateDocument = async (id: string, order: OrderUpdateRequestModel ): Promise<void> => {
+    // Create a reference to a specific document in the 'orders' collection
+    const docRef: DocumentReference = db.collection("orders").doc(id);
+
+    // make an object with only fields that are defined. avoids overwritign fileds with undefined if they are not included in the request body.
+    const cleanOrder: any = {};
+    
+    if (order.customerName !== undefined) cleanOrder.customerName = order.customerName;
+    if (order.customerPhoneNumber !== undefined) cleanOrder.customerPhoneNumber = order.customerPhoneNumber;
+    if (order.platterSize !== undefined) cleanOrder.platterSize = order.platterSize;
+    if (order.items !== undefined) cleanOrder.items = order.items;
+    if (order.totalPrice !== undefined) cleanOrder.totalPrice = order.totalPrice;
+    if (order.status !== undefined) cleanOrder.status = order.status;
+    if (order.pickupDate !== undefined) cleanOrder.pickupDate = order.pickupDate;
+    if (order.pickupTime !== undefined) cleanOrder.pickupTime = order.pickupTime;
+
+    cleanOrder.updatedAt = new Date();
+
+    await docRef.update(cleanOrder);
+};

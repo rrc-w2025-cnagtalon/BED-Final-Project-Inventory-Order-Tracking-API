@@ -4,8 +4,8 @@ import { OrderCreateRequest } from "../models/orderCreateRequestModel";
 import { getKakaninByIdService, updateKakaninService } from "../services/productService"
 import { ProductUpdateRequestModel } from "../models/productUpdateRequestModel";
 import { OrderUpdateRequestModel } from "../models/orderUpdateRequestModel";
-import { addDocument, getCollection, getDocumentById } from "../repositories/orderRepository";
-import { get } from "http";
+import { addDocument, getCollection, getDocumentById, updateDocument } from "../repositories/orderRepository";
+import { ProductResponse } from "../models/productResponse";
 
 const generateOrderNumber = (): string => {
     const nextNumber = sampleOrderSlips.length + 1;
@@ -65,12 +65,18 @@ export const createOrderService = async (data: OrderCreateRequest): Promise<stri
 };
 
 export const updateOrderService = async (orderNumber: string, data: OrderUpdateRequestModel): Promise<OrderSlip | null> => {
-    const index = sampleOrderSlips.findIndex(o => o.orderNumber === orderNumber);
-    if (index === -1) return null;
-    sampleOrderSlips[index] = { ...sampleOrderSlips[index], ...data };
-    return sampleOrderSlips[index]; // Replace with actual database call in the future
-};
 
+    const updatedEntity = await getDocumentById(orderNumber);
+        if (!updatedEntity) {
+            return null;
+        }
+    
+        await updateDocument(orderNumber, data);
+    
+        const updatedOrder = await getDocumentById(orderNumber);
+    
+        return updatedOrder as OrderSlip;
+    };
 export const deleteOrderService = async (orderNumber: string): Promise<boolean> => {
     const index = sampleOrderSlips.findIndex((k) => k.orderNumber === orderNumber);
         if (index === -1) {
