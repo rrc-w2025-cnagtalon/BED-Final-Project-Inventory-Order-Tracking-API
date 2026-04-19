@@ -9,7 +9,7 @@ import { ProductResponse } from "../models/productResponse";
 import { db } from "../../../config/firebaseConfig";
 
 const generateOrderNumber = async (): Promise<string> => {
-    // Query all orders to find the highest order number
+    // get all orders to find the highest order number
     const snapshot = await db.collection("orders").get();
     
     let highestNumber = 0;
@@ -21,7 +21,7 @@ const generateOrderNumber = async (): Promise<string> => {
         }
     });
     
-    // Increment and format as 3-digit zero-padded string
+    // Increment and format to 3 digit with zero padded string
     const nextNumber = highestNumber + 1;
     return nextNumber.toString().padStart(3, '0');
 };
