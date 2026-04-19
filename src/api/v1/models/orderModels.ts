@@ -17,7 +17,7 @@
  *           type: number
  *           description: Quantity of this product in the order
  *           minimum: 1
- *           example: 5
+ *           example: 36
  */
 export interface OrderItem {
     productId: string;

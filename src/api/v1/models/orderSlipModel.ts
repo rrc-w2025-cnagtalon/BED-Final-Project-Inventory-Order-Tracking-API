@@ -43,7 +43,7 @@ import { OrderItem, PlatterSize, OrderStatus } from "./orderModels";
  *         totalPrice:
  *           type: number
  *           description: Total price of the order
- *           example: 1500
+ *           example: 10
  *         status:
  *           type: string
  *           enum: ["Pending", "Confirmed", "Ready for Pickup", "Completed", "Cancelled"]
@@ -58,7 +58,7 @@ import { OrderItem, PlatterSize, OrderStatus } from "./orderModels";
  *           type: string
  *           format: time
  *           description: Time when customer will pick up order (HH:mm format)
- *           example: "14:30"
+ *           example: "2:00 PM"
  *         createdAt:
  *           type: string
  *           format: date-time

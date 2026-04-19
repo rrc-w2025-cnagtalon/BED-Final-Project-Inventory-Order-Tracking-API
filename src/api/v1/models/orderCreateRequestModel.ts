@@ -42,11 +42,11 @@ import { OrderItem, PlatterSize } from "./orderModels";
  *           type: string
  *           format: time
  *           description: Time when customer will pick up order (HH:mm format)
- *           example: "14:30"
+ *           example: "2:00 PM"
  *         totalPrice:
  *           type: number
  *           description: Total price of the order (optional, calculated by backend)
- *           example: 1500
+ *           example: 10
  *         status:
  *           type: string
  *           enum: ["Pending"]

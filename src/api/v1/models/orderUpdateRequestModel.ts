@@ -30,7 +30,7 @@ import { OrderItem, OrderStatus, PlatterSize } from './orderModels';
  *           type: string
  *           format: time
  *           description: Updated pickup time (HH:mm format)
- *           example: "14:30"
+ *           example: "2:00 PM"
  *         platterSize:
  *           type: number
  *           enum: [12, 36, 50, 75, 100]
@@ -44,7 +44,7 @@ import { OrderItem, OrderStatus, PlatterSize } from './orderModels';
  *         totalPrice:
  *           type: number
  *           description: Updated total price of the order
- *           example: 1500
+ *           example: 10
  */
 export interface OrderUpdateRequestModel {
     customerName?: string;
