@@ -4,3 +4,5 @@ serviceKey.json
 #Logs
 logs/
 *.log 
+
+.env
