@@ -4,6 +4,7 @@ import { generateDailyBakeList } from '../api/v1/services/bakeListService';
 export const initScheduler = () => {
   // Test Pattern: '* * * * *' (Runs every minute for testing)
   // Real Pattern: '0 19 * * *' (Runs at 7:00 PM closing time)
+  // (minute, hour, day of month, month, day of week)
   
   cron.schedule('* * * * *', async () => {
     console.log('[Scheduler] Starting nightly Bake List...');
