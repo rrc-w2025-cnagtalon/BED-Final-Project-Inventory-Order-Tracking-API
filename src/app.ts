@@ -3,6 +3,8 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
+import helmet from "helmet";
+import { apiHelmetConfig } from "../src/config/helmetConfig";
 import morgan from "morgan";
 import productRoutes from "./api/v1/routes/productRoutes"
 import orderRoutes from "./api/v1/routes/orderRoutes";
@@ -13,6 +15,8 @@ import managerRoutes from "./api/v1/routes/managerRoutes";
 
 // Initialize Express application
 const app: Express = express();
+
+app.use(apiHelmetConfig);
 
 // Logging middleware (should be applied early in the middleware stack)
 if (process.env.NODE_ENV === "production") {
