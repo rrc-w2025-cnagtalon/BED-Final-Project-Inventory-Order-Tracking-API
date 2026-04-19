@@ -41,11 +41,59 @@ app.use("/api/v1/kakanin", productRoutes);
 app.use("/api/v1/orders", orderRoutes);
 app.use("/api/v1/orders", managerRoutes);
 
+/**
+ * @swagger
+ * /:
+ *   get:
+ *     summary: API Welcome endpoint
+ *     description: Returns a welcome message from the API
+ *     tags:
+ *       - Health
+ *     responses:
+ *       200:
+ *         description: Welcome message
+ *         content:
+ *           text/html:
+ *             schema:
+ *               type: string
+ */
 // Define a route
 app.get("/", (req, res) => {
     res.send("Hello, World!");
 });
 
+/**
+ * @swagger
+ * /api/v1/health:
+ *   get:
+ *     summary: Health check endpoint
+ *     description: Check the health and uptime of the API server
+ *     tags:
+ *       - Health
+ *     responses:
+ *       200:
+ *         description: Server is healthy and running
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   example: "OK"
+ *                 uptime:
+ *                   type: number
+ *                   description: Server uptime in seconds
+ *                   example: 12345.67
+ *                 timestamp:
+ *                   type: string
+ *                   format: date-time
+ *                   description: Current server timestamp
+ *                   example: "2026-04-19T10:30:00.000Z"
+ *                 version:
+ *                   type: string
+ *                   example: "1.0.0"
+ */
 app.get("/api/v1/health", (req, res) => {
     res.json({
         status: "OK",
