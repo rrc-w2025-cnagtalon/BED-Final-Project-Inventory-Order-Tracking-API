@@ -1,4 +1,8 @@
 import express, { Express } from "express";
+import dotenv from "dotenv";
+
+dotenv.config();
+
 import morgan from "morgan";
 import productRoutes from "./api/v1/routes/productRoutes"
 import orderRoutes from "./api/v1/routes/orderRoutes";
