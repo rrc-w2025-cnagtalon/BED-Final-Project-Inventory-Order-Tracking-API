@@ -7,6 +7,7 @@ dotenv.config();
 import helmet from "helmet";
 import { apiHelmetConfig } from "../src/config/helmetConfig";
 import { getCorsOptions } from "../src/config/corsConfig";
+import setupSwagger from "../src/config/swagger";
 import morgan from "morgan";
 import productRoutes from "./api/v1/routes/productRoutes"
 import orderRoutes from "./api/v1/routes/orderRoutes";
@@ -56,5 +57,7 @@ app.get("/api/v1/health", (req, res) => {
 
 // Global error handling middleware (MUST be applied last)
 app.use(errorHandler);
+
+setupSwagger(app);
 
 export default app;
