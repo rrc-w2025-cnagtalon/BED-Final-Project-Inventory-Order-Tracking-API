@@ -11,6 +11,6 @@ orderRoutes.get("/:orderNumber", getOrderById);
 
 orderRoutes.post("/", authenticate,  isAuthorized({hasRole: ["manager", "employee", "customer"], allowSameUser: true}), validateRequest(orderSchemas.create), createOrder);
 orderRoutes.put("/:orderNumber", authenticate,  isAuthorized({hasRole: ["manager", "employee"], allowSameUser: true}), validateRequest(orderSchemas.update), updateOrder);
-orderRoutes.delete("/:orderNumber", authenticate,  isAuthorized({hasRole: ["manager"], allowSameUser: true}), validateRequest(orderSchemas.delete), deleteOrder);
+orderRoutes.delete("/:orderNumber", authenticate, validateRequest(orderSchemas.delete), deleteOrder);
 
 export default orderRoutes;
