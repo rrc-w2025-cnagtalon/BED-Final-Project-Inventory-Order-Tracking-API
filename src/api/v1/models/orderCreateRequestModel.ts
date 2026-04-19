@@ -18,11 +18,11 @@ import { OrderItem, PlatterSize } from "./orderModels";
  *         customerName:
  *           type: string
  *           description: Full name of the customer placing the order
- *           example: "Juan Dela Cruz"
+ *           example: "Shohei Ohtani"
  *         customerPhoneNumber:
  *           type: string
  *           description: Customer's contact phone number
- *           example: "+639171234567"
+ *           example: "204-616-5050"
  *         platterSize:
  *           type: number
  *           enum: [12, 36, 50, 75, 100]

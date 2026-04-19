@@ -11,11 +11,11 @@ import { OrderItem, OrderStatus, PlatterSize } from './orderModels';
  *         customerName:
  *           type: string
  *           description: Updated customer name
- *           example: "Juan Dela Cruz"
+ *           example: "Shohei Ohtani"
  *         customerPhoneNumber:
  *           type: string
  *           description: Updated customer phone number
- *           example: "+639171234567"
+ *           example: "204-616-5050"
  *         status:
  *           type: string
  *           enum: ["Pending", "Confirmed", "Ready for Pickup", "Completed", "Cancelled"]
