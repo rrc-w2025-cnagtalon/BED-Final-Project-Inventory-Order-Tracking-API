@@ -6,7 +6,8 @@ import { OrderUpdateRequestModel } from "../models/orderUpdateRequestModel";
 import { ProductDTO } from "../models/productDTO";
 
 export const addDocument = async (order: OrderCreateRequest, orderNumber: string): Promise<string> => {
-    const docRef: DocumentReference = db.collection("orders").doc();
+    // Use the orderNumber as the document ID
+    const docRef: DocumentReference = db.collection("orders").doc(orderNumber);
 
     const orderEntity: OrderSlip = {
         orderNumber: orderNumber,

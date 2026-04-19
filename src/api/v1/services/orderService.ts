@@ -6,9 +6,23 @@ import { ProductUpdateRequestModel } from "../models/productUpdateRequestModel";
 import { OrderUpdateRequestModel } from "../models/orderUpdateRequestModel";
 import { addDocument, deleteDocument, getCollection, getDocumentById, updateDocument } from "../repositories/orderRepository";
 import { ProductResponse } from "../models/productResponse";
+import { db } from "../../../config/firebaseConfig";
 
-const generateOrderNumber = (): string => {
-    const nextNumber = sampleOrderSlips.length + 1;
+const generateOrderNumber = async (): Promise<string> => {
+    // Query all orders to find the highest order number
+    const snapshot = await db.collection("orders").get();
+    
+    let highestNumber = 0;
+    snapshot.forEach(doc => {
+        const orderNumber = doc.data().orderNumber;
+        const numValue = parseInt(orderNumber, 10);
+        if (numValue > highestNumber) {
+            highestNumber = numValue;
+        }
+    });
+    
+    // Increment and format as 3-digit zero-padded string
+    const nextNumber = highestNumber + 1;
     return nextNumber.toString().padStart(3, '0');
 };
 
