@@ -5,6 +5,7 @@ import orderRoutes from "./api/v1/routes/orderRoutes";
 import { initScheduler } from "./config/scheduler";
 import { accessLogger, errorLogger, consoleLogger } from "./api/v1/middleware/logger"
 import errorHandler from "./api/v1/middleware/errorHandler";
+import managerRoutes from "./api/v1/routes/managerRoutes";
 
 // Initialize Express application
 const app: Express = express();
@@ -26,6 +27,8 @@ initScheduler();
 
 app.use("/api/v1/kakanin", productRoutes);
 app.use("/api/v1/orders", orderRoutes);
+app.use("/api/v1/manager", managerRoutes);
+
 // Define a route
 app.get("/", (req, res) => {
     res.send("Hello, World!");
