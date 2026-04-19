@@ -1,3 +1,6 @@
 node_modules/
 dist/
 serviceKey.json
+#Logs
+logs/
+*.log 
