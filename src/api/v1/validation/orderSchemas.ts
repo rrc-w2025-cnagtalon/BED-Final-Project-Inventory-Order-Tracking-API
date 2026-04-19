@@ -38,22 +38,22 @@ export const orderSchemas = {
         }),
     },
 
-    // GET /api/v1/orders/:id - Get single order
+    // GET /api/v1/orders/:orderNumber - Get single order
     getById: {
         params: Joi.object({
-            id: Joi.string().required().messages({
-                "any.required": "Order ID is required",
-                "string.empty": "Order ID cannot be empty",
+            orderNumber: Joi.string().required().messages({
+                "any.required": "Order number is required",
+                "string.empty": "Order number cannot be empty",
             }),
         }),
     },
 
-    // PUT /api/v1/orders/:id - Update order
+    // PUT /api/v1/orders/:orderNumber - Update order
     update: {
         params: Joi.object({
-            id: Joi.string().required().messages({
-                "any.required": "Order ID is required",
-                "string.empty": "Order ID cannot be empty",
+            orderNumber: Joi.string().required().messages({
+                "any.required": "Order number is required",
+                "string.empty": "Order number cannot be empty",
             }),
         }),
         body: Joi.object({
@@ -68,12 +68,12 @@ export const orderSchemas = {
         }),
     },
 
-    // DELETE /api/v1/orders/:id - Delete order
+    // DELETE /api/v1/orders/:orderNumber - Delete order
     delete: {
         params: Joi.object({
-            id: Joi.string().required().messages({
-                "any.required": "Order ID is required",
-                "string.empty": "Order ID cannot be empty",
+            orderNumber: Joi.string().required().messages({
+                "any.required": "Order number is required",
+                "string.empty": "Order number cannot be empty",
             }),
         }),
     },

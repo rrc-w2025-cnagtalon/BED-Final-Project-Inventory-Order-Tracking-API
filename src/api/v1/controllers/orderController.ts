@@ -20,9 +20,9 @@ export const getAllOrders = async (req: Request, res: Response): Promise<void> =
 //get order by id
 export const getOrderById = async (req: Request, res: Response): Promise<void> => {
     try {
-        const { id } = req.params;
+        const { orderNumber } = req.params;
 
-        const order = await getOrderByIdService(id);
+        const order = await getOrderByIdService(orderNumber);
 
         if (!order) {
             res.status(HTTP_STATUS.NOT_FOUND).json(errorResponse("Order not found.", "ORDER_NOT_FOUND_ERROR"));
@@ -59,10 +59,10 @@ export const createOrder = async (req: Request, res: Response): Promise<void> =>
 
 export const updateOrder = async (req: Request, res: Response): Promise<void> => {
     try {
-        const { id } = req.params;
+        const { orderNumber } = req.params;
         const updateData: OrderUpdateRequestModel = req.body;
 
-        const updatedOrder = await updateOrderService(id, updateData);
+        const updatedOrder = await updateOrderService(orderNumber, updateData);
 
         if (!updatedOrder) { res.status(HTTP_STATUS.NOT_FOUND).json(errorResponse("Order not found.", "ORDER_NOT_FOUND_ERROR"));
             return;

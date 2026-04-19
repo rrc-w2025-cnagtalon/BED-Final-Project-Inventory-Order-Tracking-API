@@ -8,7 +8,7 @@ const orderRoutes = Router();
 orderRoutes.get("/", getAllOrders);
 orderRoutes.get("/:orderNumber", getOrderById);
 orderRoutes.post("/", validateRequest(orderSchemas.create), createOrder);
-orderRoutes.put("/:orderNumber", updateOrder);
-orderRoutes.delete("/:orderNumber", deleteOrder);
+orderRoutes.put("/:orderNumber", validateRequest(orderSchemas.update), updateOrder);
+orderRoutes.delete("/:orderNumber", validateRequest(orderSchemas.delete), deleteOrder);
 
 export default orderRoutes;
