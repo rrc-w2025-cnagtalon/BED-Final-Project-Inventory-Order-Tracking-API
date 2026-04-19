@@ -1,5 +1,6 @@
 import express, { Express } from "express";
 import dotenv from "dotenv";
+import cors from "cors";
 
 dotenv.config();
 
@@ -17,6 +18,7 @@ import managerRoutes from "./api/v1/routes/managerRoutes";
 const app: Express = express();
 
 app.use(apiHelmetConfig);
+app.use(cors());
 
 // Logging middleware (should be applied early in the middleware stack)
 if (process.env.NODE_ENV === "production") {
