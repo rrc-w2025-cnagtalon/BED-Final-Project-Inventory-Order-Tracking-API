@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { ObjectSchema } from "joi";
+import { AppError } from "../errors/error";
 
 import { HTTP_STATUS } from "../../../constants/httpConstants";
 
@@ -102,18 +103,14 @@ export const validateRequest = (
 
             // If there are any validation errors, return them
             if (errors.length > 0) {
-                res.status(HTTP_STATUS.BAD_REQUEST).json({
-                    error: `Validation error: ${errors.join(", ")}`,
-                });
-                return;
-            }
+                const errorMessage = `Validation error: ${errors.join(", ")}`;
+                return next(new AppError(errorMessage, "VALIDATION_ERROR", HTTP_STATUS.BAD_REQUEST));
+}
 
             next();
         } catch (error: unknown) {
-            res.status(HTTP_STATUS.BAD_REQUEST).json({
-                error: (error as Error).message,
-            });
-            return;
+            // Instead of res.status, pass it to next()
+            next(error); 
         }
     };
 };
