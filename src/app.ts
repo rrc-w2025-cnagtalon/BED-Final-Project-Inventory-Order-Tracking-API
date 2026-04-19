@@ -27,7 +27,7 @@ initScheduler();
 
 app.use("/api/v1/kakanin", productRoutes);
 app.use("/api/v1/orders", orderRoutes);
-app.use("/api/v1/manager", managerRoutes);
+app.use("/api/v1/orders", managerRoutes);
 
 // Define a route
 app.get("/", (req, res) => {
