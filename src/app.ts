@@ -3,9 +3,21 @@ import morgan from "morgan";
 import productRoutes from "./api/v1/routes/productRoutes"
 import orderRoutes from "./api/v1/routes/orderRoutes";
 import { initScheduler } from "./config/scheduler";
+import { accessLogger, errorLogger, consoleLogger } from "./api/v1/middleware/logger"
+import errorHandler from "./api/v1/middleware/errorHandler";
 
 // Initialize Express application
 const app: Express = express();
+
+// Logging middleware (should be applied early in the middleware stack)
+if (process.env.NODE_ENV === "production") {
+    // In production, log to files
+    app.use(accessLogger);
+    app.use(errorLogger);
+} else {
+    // In development, log to console for immediate feedback
+    app.use(consoleLogger);
+}
 
 app.use(morgan("combined"));
 app.use(express.json());
@@ -27,5 +39,8 @@ app.get("/api/v1/health", (req, res) => {
         version: "1.0.0",
     });
 });
+
+// Global error handling middleware (MUST be applied last)
+app.use(errorHandler);
 
 export default app;
